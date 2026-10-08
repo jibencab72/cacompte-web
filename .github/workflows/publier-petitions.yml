@@ -1,0 +1,39 @@
+# Publie chaque lundi matin les pétitions officielles (AN + Sénat) pour l'appli
+# « Pétitions, Ça compte ». data.gouv.fr met les CSV à jour le lundi (vérifié le 08/10/2026).
+# Les fichiers publiés sont servis par GitHub Pages : https://jibencab72.github.io/cacompte-web/donnees/
+name: Publier les pétitions
+
+on:
+  schedule:
+    - cron: "17 6 * * 1"   # lundi 06h17 UTC (08h17 Paris en été, 07h17 en hiver)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publier-petitions
+  cancel-in-progress: false
+
+jobs:
+  publier:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Construire les données
+        run: python3 pipeline/construire_petitions.py --sortie donnees
+      - name: Publier (commit sur main)
+        run: |
+          git config user.name "pipeline-petitions"
+          git config user.email "pipeline-petitions@users.noreply.github.com"
+          git add donnees
+          if git diff --cached --quiet; then
+            echo "Aucun changement à publier."
+          else
+            git commit -m "Pétitions : publication automatique $(date -u +%Y-%m-%d)"
+            git push
+          fi
