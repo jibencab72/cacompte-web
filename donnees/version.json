@@ -1,9 +1,9 @@
 {
  "schema_version": 2,
- "genere_le": "2026-10-19T13:18:11+00:00",
- "donnees_au": "2026-10-19",
- "nb_petitions": 4991,
- "sha256": "bfdcf04fffa2ed463c07fb713decc190f0b0eb863899543e4aa19f0592286651",
- "taille_octets": 2883503,
+ "genere_le": "2026-10-26T13:04:51+00:00",
+ "donnees_au": "2026-10-26",
+ "nb_petitions": 5035,
+ "sha256": "33d37872747a637a817ad05e6b2db9f1f3a01ec415299ff9d3ef625f875028a9",
+ "taille_octets": 2909390,
  "fichier": "petitions.json"
 }
